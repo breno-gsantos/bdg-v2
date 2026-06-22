@@ -1,0 +1,128 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole{
+  ROOT
+  ADMIN
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  NO_SHOW
+}
+
+enum CategoryType {
+  foods
+  drinks
+  desserts
+}
+
+model User {
+  id               String @id @default(cuid())
+
+  name             String
+  email            String @unique
+  password         String
+
+  role             UserRole @default(ADMIN)
+
+  isActive         Boolean @default(true)
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Reservation{
+  id              String @id @default(cuid())
+
+  name            String
+  whatsapp        String
+  date            DateTime
+  time            String
+  guests          Int
+  status          ReservationStatus @default(PENDING)
+  notes           String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("reservations")
+  @@index([date])
+  @@index([date, time])
+}
+
+model Category {
+  id              String @id @default(cuid())
+
+  name            String @unique
+  type            CategoryType @default(foods)
+  slug            String? @unique
+
+  items           MenuItem[]
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("categories")
+}
+
+model MenuItem {
+  id              String @id @default(cuid())
+
+  name            String
+  description     String?
+  price           Decimal @db.Decimal(10,2)
+  imageUrl        String?
+  isAvailable     Boolean @default(true)
+  isFeatured      Boolean @default(false)
+
+  categoryId      String
+  category        Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("menu_items")
+}
+
+model OperatingHour {
+  id              String @id @default(cuid())
+
+  dayOfWeek       Int
+  time            String
+  isActive        Boolean @default(true)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([dayOfWeek, time])
+  @@map("operating_hours")
+}
+
+model BlockedSlot {
+  id              String   @id @default(cuid())
+  date            DateTime // data específica (yyyy-mm-dd)
+  time            String   // "19:30"
+  reason          String?  // opcional: "Feriado", "Evento", etc.
+
+  createdAt       DateTime @default(now())
+
+  @@unique([date, time])
+  @@map("blocked_slots")
+}
+
