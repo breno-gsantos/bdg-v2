@@ -71,7 +71,7 @@ export function MenuPreview({ menuItems }: MenuPreviewProps) {
           <Carousel opts={{ align: 'start' }} className="w-full max-w-2xl">
             <CarouselContent className="-ml-2">
               {currentCategories.map((cat) => {
-                const Icon = iconMap[cat.slug] ?? Wine
+                const Icon = iconMap[cat.slug ?? ""] ?? Wine
                 
                 return (
                   <CarouselItem key={cat.id} className="pl-4 basis-[45%] sm:basis-1/2 md:basis-1/3">

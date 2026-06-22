@@ -13,6 +13,6 @@ export type menuItemsDTO = {
     id: string;
     name: string;
     type: CategoryType;
-    slug: string;
+    slug: string | null;
   }
 }
