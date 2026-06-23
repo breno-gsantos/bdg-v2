@@ -22,6 +22,7 @@ import { ptBR } from "date-fns/locale";
 import { Calendar } from "@/components/ui/calendar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { createReservationAction } from "@/actions/reservation/create-reservation-action";
+import Link from "next/link";
 
 export function Reservation() {
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
@@ -147,99 +148,100 @@ export function Reservation() {
             </div>
           </div>
 
-          <Card className="w-full sm:max-w-lg shadow-xl">
-            <form onSubmit={handleSubmit(onSubmit)} className="p-8">
-              <FieldGroup>
-                <Controller control={control} name="name" render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>Nome e Sobrenome</FieldLabel>
-                    <InputGroup>
-                      <InputGroupInput placeholder="Seu nome" id={field.name} aria-invalid={fieldState.invalid} {...field} disabled={isSubmitting} />
-                      <InputGroupAddon>
-                        <Users className="size-5 text-muted-foreground group-focus-within:text-primary transition-color" />
-                      </InputGroupAddon>
-                    </InputGroup>
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )} />
-
-                <Controller control={control} name="whatsapp" render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>Número do WhatsApp</FieldLabel>
-                    <div className="relative group">
-                      <SiWhatsapp className="absolute left-2 top-1/2 -translate-y-1/2 size-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
-                      <IMaskInput
-                        mask="(00) 00000-0000"
-                        value={field.value || ''}
-                        onAccept={(unmaskedValue) => field.onChange(unmaskedValue)}
-                        onBlur={field.onBlur}
-                        name={field.name}
-                        id={field.name}
-                        inputRef={field.ref}
-                        placeholder="(13) 99999-9999"
-                        className="imaskInput pl-8"
-                        disabled={isSubmitting}
-                        aria-invalid={fieldState.invalid}
-                      />
-                    </div>
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )} />
-
-                <div className="grid md:grid-cols-2 gap-4">
-                  <Controller control={control} name="date" render={({ field, fieldState }) => (
+          <div>
+            <Card className="w-full sm:max-w-lg shadow-xl">
+              <form onSubmit={handleSubmit(onSubmit)} className="p-8">
+                <FieldGroup>
+                  <Controller control={control} name="name" render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={field.name}>Data da Reserva</FieldLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button variant='outline' className={cn('max-w-55 justify-start text-left font-normal bg-card border-border', !field.value && 'text-muted-foreground')}>
-                            <CalendarIcon className="mr-1 size-5 text-muted-foreground" />
-                            {field.value ? format(field.value, "dd 'de' MMMM yyyy", { locale: ptBR }) : 'Selecione uma data'}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar mode="single" selected={field.value} onSelect={field.onChange} disabled={disabledDates} autoFocus locale={ptBR} />
-                        </PopoverContent>
-                      </Popover>
-                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                      <FieldLabel htmlFor={field.name}>Nome e Sobrenome</FieldLabel>
+                      <InputGroup>
+                        <InputGroupInput placeholder="Seu nome" id={field.name} aria-invalid={fieldState.invalid} {...field} disabled={isSubmitting} />
+                        <InputGroupAddon>
+                          <Users className="size-5 text-muted-foreground group-focus-within:text-primary transition-color" />
+                        </InputGroupAddon>
+                      </InputGroup>
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
                     </Field>
                   )} />
 
-                  <Controller control={control} name="time" render={({ field, fieldState }) => (
+                  <Controller control={control} name="whatsapp" render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={field.name}>Horário</FieldLabel>
-                      <Select value={field.value} onValueChange={field.onChange} disabled={isLoadingTimes || availableTimes.length === 0}>
-                        <SelectTrigger id={field.name} aria-invalid={fieldState.invalid} className="max-w-55 md:w-full justify-start text-left font-normal bg-card border-border">
-                          <Clock className="size-5" />
-                          <SelectValue placeholder={isLoadingTimes ? 'Carregando...' : 'Selecione um horário'} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {availableTimes.length > 0 ? (
-                            availableTimes.map((time) => (
-                              <SelectItem key={time} value={time}>{time}</SelectItem>
-                            ))
-                          ) : (
-                            <div className="px-4 py-3 text-sm text-muted-foreground">
-                              Selecione uma data para ver horários disponíveis
-                            </div>
-                          )}
-                        </SelectContent>
-                      </Select>
-                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                      <FieldLabel htmlFor={field.name}>Número do WhatsApp</FieldLabel>
+                      <div className="relative group">
+                        <SiWhatsapp className="absolute left-2 top-1/2 -translate-y-1/2 size-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                        <IMaskInput
+                          mask="(00) 00000-0000"
+                          value={field.value || ''}
+                          onAccept={(unmaskedValue) => field.onChange(unmaskedValue)}
+                          onBlur={field.onBlur}
+                          name={field.name}
+                          id={field.name}
+                          inputRef={field.ref}
+                          placeholder="(13) 99999-9999"
+                          className="imaskInput pl-8"
+                          disabled={isSubmitting}
+                          aria-invalid={fieldState.invalid}
+                        />
+                      </div>
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
                     </Field>
                   )} />
-                </div>
 
-                <Controller control={control} name="guests" render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>Número de Pessoas</FieldLabel>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <Controller control={control} name="date" render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor={field.name}>Data da Reserva</FieldLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button variant='outline' className={cn('max-w-55 justify-start text-left font-normal bg-card border-border', !field.value && 'text-muted-foreground')}>
+                              <CalendarIcon className="mr-1 size-5 text-muted-foreground" />
+                              {field.value ? format(field.value, "dd 'de' MMMM yyyy", { locale: ptBR }) : 'Selecione uma data'}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar mode="single" selected={field.value} onSelect={field.onChange} disabled={disabledDates} autoFocus locale={ptBR} />
+                          </PopoverContent>
+                        </Popover>
+                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                      </Field>
+                    )} />
+
+                    <Controller control={control} name="time" render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor={field.name}>Horário</FieldLabel>
+                        <Select value={field.value} onValueChange={field.onChange} disabled={isLoadingTimes || availableTimes.length === 0}>
+                          <SelectTrigger id={field.name} aria-invalid={fieldState.invalid} className="max-w-55 md:w-full justify-start text-left font-normal bg-card border-border">
+                            <Clock className="size-5" />
+                            <SelectValue placeholder={isLoadingTimes ? 'Carregando...' : 'Selecione um horário'} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {availableTimes.length > 0 ? (
+                              availableTimes.map((time) => (
+                                <SelectItem key={time} value={time}>{time}</SelectItem>
+                              ))
+                            ) : (
+                              <div className="px-4 py-3 text-sm text-muted-foreground">
+                                Selecione uma data para ver horários disponíveis
+                              </div>
+                            )}
+                          </SelectContent>
+                        </Select>
+                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                      </Field>
+                    )} />
+                  </div>
+
+                  <Controller control={control} name="guests" render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor={field.name}>Número de Pessoas</FieldLabel>
                       <Select value={field.value} onValueChange={field.onChange} disabled={isSubmitting}>
-                      <SelectTrigger id={field.name} aria-invalid={fieldState.invalid} className="max-w-55 justify-start text-left font-normal bg-card border-border">
-                         <Users className="size-5 text-muted-foreground pointer-events-none z-10 group-focus-within:text-primary transition-colors" />
+                        <SelectTrigger id={field.name} aria-invalid={fieldState.invalid} className="max-w-55 justify-start text-left font-normal bg-card border-border">
+                          <Users className="size-5 text-muted-foreground pointer-events-none z-10 group-focus-within:text-primary transition-colors" />
                           <SelectValue placeholder="Quantas pessoas?" />
                         </SelectTrigger>
                         <SelectContent>
@@ -251,42 +253,49 @@ export function Reservation() {
                         </SelectContent>
                       </Select>
                       {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                  </Field>
-                )} />
+                    </Field>
+                  )} />
 
-                <Controller control={control} name="notes" render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>Observação (opcional)</FieldLabel>
-                    <InputGroup>
-                      <InputGroupTextarea placeholder="Andar superior, calçada, assistir jogo..." id={field.name} aria-invalid={fieldState.invalid} {...field} disabled={isSubmitting} className="min-h-10 resize-none" />
-                      <InputGroupAddon align="block-end">
-                        <InputGroupText className="tabular-nums">
-                          {field.value?.length}/50
-                        </InputGroupText>
-                      </InputGroupAddon>
-                    </InputGroup>
-                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                  </Field>
-                )} />
+                  <Controller control={control} name="notes" render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor={field.name}>Observação (opcional)</FieldLabel>
+                      <InputGroup>
+                        <InputGroupTextarea placeholder="Andar superior, calçada, assistir jogo..." id={field.name} aria-invalid={fieldState.invalid} {...field} disabled={isSubmitting} className="min-h-10 resize-none" />
+                        <InputGroupAddon align="block-end">
+                          <InputGroupText className="tabular-nums">
+                            {field.value?.length}/50
+                          </InputGroupText>
+                        </InputGroupAddon>
+                      </InputGroup>
+                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                    </Field>
+                  )} />
 
-                <Button type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? (
-                    <>
-                      <Spinner />
-                      Enviando...
-                    </>
-                  ) : (
+                  <Button type="submit" disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        <Spinner />
+                        Enviando...
+                      </>
+                    ) : (
                       <>
                         <ArrowRight className="size-5" />
                         Solicitar Reserva
                       </>
-                  )}
-                </Button>
-              </FieldGroup>
-            </form>
-          </Card>
-
-
+                    )}
+                  </Button>
+                </FieldGroup>
+              </form>
+            </Card>
+            <p className="text-center text-muted-foreground/60 mt-4 text-sm tracking-wide">
+              * Horário indisponível ou quer uma reserva personalizada?
+              <Button variant='link' asChild>
+                <Link href='https://www.instagram.com/botecodogonza/' target="_blank" rel="noopener noreferrer">
+                  Fale conosco no Instagram
+                </Link>
+              </Button>
+            </p>
+          </div>
         </div>
       </div>
     </section>
