@@ -112,17 +112,19 @@ export function MenuPreview({ menuItems }: MenuPreviewProps) {
                     )}
                   </div>
 
-                  <div className="w-full flex justify-between items-center gap-6">
+                  <div className="w-full flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-6">
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-serif text-xl md:text-2xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors duration-300">
+                      <h3 className="font-serif text-lg sm:text-xl md:text-2xl font-semibold text-foreground mb-1 group-hover:text-primary transition-colors duration-300">
                         {item.name}
                       </h3>
+
                       <p className="hidden md:line-clamp-3 text-muted-foreground leading-relaxed">
                         {item.description}
                       </p>
                     </div>
-                    <div className="text-right shrink-0">
-                      <span className="text-2xl md:text-3xl font-serif font-bold text-primary whitespace-nowrap">
+
+                    <div className="shrink-0">
+                      <span className="text-lg sm:text-2xl md:text-3xl font-serif font-bold text-primary whitespace-nowrap">
                         R$ {Number(item.price).toFixed(2).replace('.', ',')}
                       </span>
                     </div>

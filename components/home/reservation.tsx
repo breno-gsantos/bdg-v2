@@ -190,13 +190,13 @@ export function Reservation() {
                   </Field>
                 )} />
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-2 gap-4">
                   <Controller control={control} name="date" render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
                       <FieldLabel htmlFor={field.name}>Data da Reserva</FieldLabel>
                       <Popover>
                         <PopoverTrigger asChild>
-                          <Button variant='outline' className={cn('justify-start text-left font-normal bg-card border-border', !field.value && 'text-muted-foreground')}>
+                          <Button variant='outline' className={cn('max-w-55 justify-start text-left font-normal bg-card border-border', !field.value && 'text-muted-foreground')}>
                             <CalendarIcon className="mr-1 size-5 text-muted-foreground" />
                             {field.value ? format(field.value, "dd 'de' MMMM yyyy", { locale: ptBR }) : 'Selecione uma data'}
                           </Button>
@@ -213,7 +213,7 @@ export function Reservation() {
                     <Field data-invalid={fieldState.invalid}>
                       <FieldLabel htmlFor={field.name}>Horário</FieldLabel>
                       <Select value={field.value} onValueChange={field.onChange} disabled={isLoadingTimes || availableTimes.length === 0}>
-                        <SelectTrigger id={field.name} aria-invalid={fieldState.invalid} className="w-full justify-start text-left font-normal bg-card border-border">
+                        <SelectTrigger id={field.name} aria-invalid={fieldState.invalid} className="max-w-55 md:w-full justify-start text-left font-normal bg-card border-border">
                           <Clock className="size-5" />
                           <SelectValue placeholder={isLoadingTimes ? 'Carregando...' : 'Selecione um horário'} />
                         </SelectTrigger>
@@ -238,7 +238,7 @@ export function Reservation() {
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor={field.name}>Número de Pessoas</FieldLabel>
                       <Select value={field.value} onValueChange={field.onChange} disabled={isSubmitting}>
-                      <SelectTrigger id={field.name} aria-invalid={fieldState.invalid} className="max-w-50 justify-start text-left font-normal bg-card border-border">
+                      <SelectTrigger id={field.name} aria-invalid={fieldState.invalid} className="max-w-55 justify-start text-left font-normal bg-card border-border">
                          <Users className="size-5 text-muted-foreground pointer-events-none z-10 group-focus-within:text-primary transition-colors" />
                           <SelectValue placeholder="Quantas pessoas?" />
                         </SelectTrigger>
