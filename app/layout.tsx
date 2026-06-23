@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Boteco do Gonza | Bar & Gastronomia em Santos",
     description: "A esquina mais charmosa de Santos. Comida boa, bebida gelada e resenha garantida.",
-    url: "https://www.botecodogonza.com.br", // ← Troque pelo domínio final
+    url: "https://bdg-v2.vercel.app/", // ← Troque pelo domínio final
     siteName: "Boteco do Gonza",
     images: [
       {
